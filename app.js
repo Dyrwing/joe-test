@@ -67,6 +67,9 @@ app.get("/products", (req, res  ) => {
 app.get("/locations", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "locations.html"));
 });
+app.get("/response", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "response.html"));
+});
 
 app.get("/res", (req, res) => {
   res.send("Response message from server");
@@ -180,8 +183,8 @@ app.get('/culture/image', (req, res) => {
 });
 
 
-app.listen(4000, () => {
-  console.log("Server listening on port 4000");
+app.listen(3000, () => {
+  console.log("Server listening on port 3000");
 });
 
 //Create UDP server
@@ -199,3 +202,39 @@ server.on('message', function (message, remote) {
 });
 
 server.bind(6790, '0.0.0.0');
+
+
+//Create TCP server
+const net = require('net');
+
+const serverTCP = net.createServer((socket) => {
+  console.log('Client connected.');
+
+  socket.on('data', (data) => {
+    const message = data.toString().trim();
+    console.log(`Received from client: ${message}`);
+
+    const msg = message.split(':')[0];
+    if (msg === 'pong') {
+      const [pingMsg, clientTimestamp] = message.split(':');
+      const serverTimestamp = Date.now();
+      console.log(`Round-trip time: ${serverTimestamp - parseInt(clientTimestamp)} ms`);
+      socket.write(`pong:${clientTimestamp}`);
+    }
+  });
+
+  socket.on('end', () => {
+    console.log('Client disconnected.');
+  });
+
+  // Handle errors
+  socket.on('error', (error) => {
+    console.error('Error:', error);
+  });
+});
+
+const serverPort = 8080;
+
+serverTCP.listen(serverPort, () => {
+  console.log(`Server is listening on port ${serverPort}`);
+});
