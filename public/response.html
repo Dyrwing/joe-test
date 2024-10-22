@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/response.css">
+    <title>JOE and The Juice</title>
+</head>
+
+<body>
+
+    <h1 id="header">Check response time for server</h1>
+    <div id="container">
+        <div id="udp-box" class="reponseBox">
+            <h1>UDP</h1>
+            <input id="addressInput" type="text" placeholder="type ip-address">
+            <input type="button" value="Ping For RTT" onclick="pingForRTT()">
+            <p id="RTTValue"></p>
+            <input type="button" value="Ping For Average RTT" onclick="pingForAverageRTT()">
+            <p id="averageRTTValue"></p>
+        </div>
+        <div id="tcp-box" class="reponseBox">
+            <h1>TCP</h1>
+
+        </div>
+    </div>
+
+
+</body>
+<script src="./static/scripts/response.js"></script>
+
+</html>

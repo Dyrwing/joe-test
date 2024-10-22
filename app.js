@@ -183,3 +183,19 @@ app.get('/culture/image', (req, res) => {
 app.listen(4000, () => {
   console.log("Server listening on port 4000");
 });
+
+//Create UDP server
+const dgram = require('dgram');
+const server = dgram.createSocket('udp4');
+
+// Lytter til beskeder fra klienten
+server.on('message', function (message, remote) {
+    console.log('Received', message.toString());
+    
+    // Svare tilbage til klienten
+    const reply = 'pong';
+    console.log('Replying with', reply)
+    server.send(reply, 0, reply.length, remote.port, remote.address);
+});
+
+server.bind(6790, '0.0.0.0');
